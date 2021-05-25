@@ -12,5 +12,3 @@ sudo docker cp ${ID}:/.artifakt/docker-compose.yaml /tmp/docker-compose.yaml
 
 sudo docker-compose --file=/tmp/docker-compose.yaml --project-name=app up --remove-orphans -d
 
-#TODO STEP3 install crontab
-sudo docker cp ${ID}:/etc/cron.d/magento2-cron crontab

@@ -4,6 +4,15 @@ set -e
 
 echo ">>>>>>>>>>>>>> START CUSTOM ENTRYPOINT SCRIPT <<<<<<<<<<<<<<<<< "
 
+# set runtime env. vars on the fly
+export APP_ENV=prod
+export APP_DATABASE_NAME=${ARTIFAKT_MYSQL_DATABASE_NAME:-changeme}
+export APP_DATABASE_USER=${ARTIFAKT_MYSQL_USER:-changeme}
+export APP_DATABASE_PASSWORD=${ARTIFAKT_MYSQL_PASSWORD:-changeme}
+export APP_DATABASE_HOST=${ARTIFAKT_MYSQL_HOST:-mysql}
+export APP_DATABASE_PORT=${ARTIFAKT_MYSQL_PORT:-3306}
+export APP_INDEX_HOSTS='elasticsearch:9200'
+
 echo "------------------------------------------------------------"
 echo "The following build args are available:"
 env

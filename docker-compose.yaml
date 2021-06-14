@@ -2,14 +2,12 @@ version: '3'
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.onbuild
+    build: .
     image: base-akeneo:5-apache
     ports:
       - "8000:80"
     env_file:
-      - .env.local
+      - .env.dist
     environment:
       APP_ENV: dev
       APP_DEBUG: 1
@@ -23,7 +21,7 @@ services:
       PHP_CONF_OPCACHE_VALIDATE_TIMESTAMP: 1
 
   mysql:
-    image: mysql:8.0.22
+    image: mysql/mysql-server:8.0.22
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_DATABASE: ${ARTIFAKT_MYSQL_DATABASE_NAME:-changeme}

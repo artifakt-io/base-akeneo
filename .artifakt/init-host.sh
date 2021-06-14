@@ -2,13 +2,7 @@
 
 set -e
 
-# on starter only
-# ignore on pro/entreprise
-
-ID=$(sudo docker ps -ql)
-
-#TODO STEP1 run elasticsearch
-sudo docker cp ${ID}:/.artifakt/docker-compose.yaml /tmp/docker-compose.yaml
-
-sudo docker-compose --file=/tmp/docker-compose.yaml --project-name=app up --remove-orphans -d
-
+echo ">>>>>>>>>>>>>> START AKENEO INIT-HOST SCRIPT <<<<<<<<<<<<<<<<< "
+env
+sudo docker ps -a
+echo ">>>>>>>>>>>>>> END AKENEO INIT-HOST SCRIPT <<<<<<<<<<<<<<<<< "

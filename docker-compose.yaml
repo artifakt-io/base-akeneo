@@ -9,7 +9,7 @@ services:
     ports:
       - "8000:80"
     env_file:
-      - .env.local
+      - .env.dist
     environment:
       APP_ENV: dev
       APP_DEBUG: 1

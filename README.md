@@ -40,7 +40,7 @@ Container configuration tries to stick to 12-factor app principles as much as po
 You can use this stack to run a complete Akeneo stack with MySQL in a few docker-compose lines.
 
 ```
-docker-compose --env-file=.env up -d --build
+docker-compose --env-file=.env.dist up -d --build
 ```
 
 ## Adding custom code

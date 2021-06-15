@@ -24,7 +24,6 @@ RUN mkdir -p /var/log/artifakt && chown www-data:www-data /var/log/artifakt
 
 # run custom scripts build.sh
 # hadolint ignore=SC1091
-#RUN --mount=source=artifakt-custom-build-args,target=/tmp/build-args \
-RUN \
+RUN --mount=source=artifakt-custom-build-args,target=/tmp/build-args \
   if [ -f /tmp/build-args ]; then source /tmp/build-args; fi && \
   if [ -f /.artifakt/build.sh ]; then /.artifakt/build.sh; fi

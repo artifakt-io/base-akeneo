@@ -24,4 +24,9 @@ wait-for-it.sh $APP_DATABASE_HOST:3306 --timeout=90 -- su www-data -s /bin/sh -c
 
 su www-data -s /bin/sh -c 'php ./bin/console pim:user:create kbeck secretp@ssw0rd kbeck@example.com Kent Beck en_US --admin -n'
 
+# CLEAN
+# mkdir -p /data/var/log /data/var/uploads /data/var/cache && \
+#   ln -s /data/var /var/www/html/var && \
+#   chown -R www-data:www-data /var/www/html/ /data/var
+
 echo ">>>>>>>>>>>>>> END CUSTOM ENTRYPOINT SCRIPT <<<<<<<<<<<<<<<<< "

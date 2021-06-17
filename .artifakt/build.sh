@@ -11,6 +11,9 @@ echo "------------------------------------------------------------"
 
 su www-data -s /bin/sh -c 'composer install && composer dump-autoload'
 
-chown -R www-data:www-data /var/www/html/pim-community-standard/vendor
+chmod 755 /var/www/html/pim-community-standard/bin/console
+
+#CLEAN
+#chown -R www-data:www-data /var/www/html/pim-community-standard/vendor
 
 echo ">>>>>>>>>>>>>> END CUSTOM BUILD SCRIPT <<<<<<<<<<<<<<<<< "

@@ -2,12 +2,12 @@ version: '3'
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.onbuild
+    build: .
     image: base-akeneo:4-apache
     ports:
       - "8000:80"
+    volumes:
+      - data:/data
     env_file:
       - .env.dist
     environment:
@@ -23,8 +23,10 @@ services:
       PHP_CONF_OPCACHE_VALIDATE_TIMESTAMP: 1
 
   mysql:
-    image: mysql:8.0.22
+    image: mysql/mysql-server:8.0.22
     command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - datadir:/var/lib/mysql
     environment:
       MYSQL_DATABASE: ${ARTIFAKT_MYSQL_DATABASE_NAME:-changeme}
       MYSQL_USER: ${ARTIFAKT_MYSQL_USER:-changeme}
@@ -51,3 +53,7 @@ services:
   pubsub-emulator:
     image: 'google/cloud-sdk:312.0.0'
     command: 'gcloud --user-output-enabled --log-http beta emulators pubsub start --host-port=0.0.0.0:8085'
+
+volumes: 
+  data:
+  datadir:

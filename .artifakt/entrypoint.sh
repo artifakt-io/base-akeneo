@@ -25,8 +25,17 @@ echo "------------------------------------------------------------"
 
 wait-for ${ARTIFAKT_ES_HOST:-elasticsearch}:${ARTIFAKT_ES_PORT:-9200} --timeout=30
 
-wait-for $APP_DATABASE_HOST:3306 --timeout=90 -- su www-data -s /bin/sh -c 'sleep 10 && cd /var/www/html/pim-community-standard && APP_ENV=dev php bin/console pim:installer:db --withoutIndexes=true --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal || :'
+wait-for $APP_DATABASE_HOST:3306 --timeout=90 -- su www-data -s /bin/bash -c '
+  cd /var/www/html/pim-community-standard
+  ./bin/console pim:system:information 2>/dev/null;
 
-su www-data -s /bin/sh -c 'php ./bin/console pim:user:create admin password123 user@example.com Admin User en_US --admin -n'
+  if [ $? -ne 0 ]; then
+  	echo FIRST DEPLOYMENT, will run default installer
+    APP_ENV=dev php bin/console pim:installer:db --withoutIndexes=true --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal
+    php ./bin/console pim:user:create admin password123 user@example.com Admin User en_US --admin -n
+  else
+  	echo FOUND INSTALLED SYSTEM, will not run installer
+  fi
+'
 
 echo ">>>>>>>>>>>>>> END CUSTOM ENTRYPOINT SCRIPT <<<<<<<<<<<<<<<<< "

@@ -11,12 +11,24 @@ export APP_DATABASE_USER=${ARTIFAKT_MYSQL_USER:-changeme}
 export APP_DATABASE_PASSWORD=${ARTIFAKT_MYSQL_PASSWORD:-changeme}
 export APP_DATABASE_HOST=${ARTIFAKT_MYSQL_HOST:-mysql}
 export APP_DATABASE_PORT=${ARTIFAKT_MYSQL_PORT:-3306}
-export APP_INDEX_HOSTS='elasticsearch:9200'
 
-wait-for-it.sh ${ARTIFAKT_ES_HOST:-elasticsearch}:${ARTIFAKT_ES_PORT:-9200} --timeout=30
+ES_PROTOCOL=""
+if [[ "$ARTIFAKT_ES_PORT" == "443" ]]; then
+  ES_PROTOCOL="https://"
+fi
+export APP_INDEX_HOSTS=${ES_PROTOCOL:-http://}${ARTIFAKT_ES_HOST:-elasticsearch}:${ARTIFAKT_ES_PORT:-9200}
 
-wait-for-it.sh $APP_DATABASE_HOST:3306 --timeout=90 -- su www-data -s /bin/sh -c 'sleep 10 && cd /var/www/html/pim-community-standard && APP_ENV=dev php bin/console pim:installer:db --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal || :'
+wait-for ${ARTIFAKT_ES_HOST:-elasticsearch}:${ARTIFAKT_ES_PORT:-9200} --timeout=30
 
-su www-data -s /bin/sh -c 'php ./bin/console pim:user:create kbeck secretp@ssw0rd kbeck@example.com Kent Beck en_US --admin -n'
-
+wait-for $APP_DATABASE_HOST:$ARTIFAKT_MYSQL_PORT --timeout=90 -- su www-data -s /bin/bash -c '
+  cd /var/www/html/pim-community-standard
+  ./bin/console pim:system:information 2>/dev/null;
+  if [ $? -ne 0 ]; then
+  	echo FIRST DEPLOYMENT, will run default installer
+    APP_ENV=dev php bin/console pim:installer:db --withoutIndexes=true --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal
+    php ./bin/console pim:user:create admin password123 user@example.com Admin User en_US --admin -n
+  else
+  	echo FOUND INSTALLED SYSTEM, will not run installer
+  fi
+'
 echo ">>>>>>>>>>>>>> END CUSTOM ENTRYPOINT SCRIPT <<<<<<<<<<<<<<<<< "

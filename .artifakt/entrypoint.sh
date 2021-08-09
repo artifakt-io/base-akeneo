@@ -18,11 +18,6 @@ if [[ "$ARTIFAKT_ES_PORT" == "443" ]]; then
 fi
 export APP_INDEX_HOSTS=${ES_PROTOCOL:-http://}${ARTIFAKT_ES_HOST:-elasticsearch}:${ARTIFAKT_ES_PORT:-9200}
 
-echo "------------------------------------------------------------"
-echo "The following build args are available:"
-env
-echo "------------------------------------------------------------"
-
 wait-for ${ARTIFAKT_ES_HOST:-elasticsearch}:${ARTIFAKT_ES_PORT:-9200} --timeout=30
 
 wait-for $APP_DATABASE_HOST:$ARTIFAKT_MYSQL_PORT --timeout=90 -- su www-data -s /bin/bash -c '
@@ -36,5 +31,4 @@ wait-for $APP_DATABASE_HOST:$ARTIFAKT_MYSQL_PORT --timeout=90 -- su www-data -s 
   	echo FOUND INSTALLED SYSTEM, will not run installer
   fi
 '
-
 echo ">>>>>>>>>>>>>> END CUSTOM ENTRYPOINT SCRIPT <<<<<<<<<<<<<<<<< "

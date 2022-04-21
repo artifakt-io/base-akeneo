@@ -5,6 +5,7 @@ set -e
 echo ">>>>>>>>>>>>>> START CUSTOM ENTRYPOINT SCRIPT <<<<<<<<<<<<<<<<< "
 
 # set runtime env. vars on the fly
+source /var/www/html/.build-args
 export APP_ENV=prod
 export APP_DATABASE_NAME=${ARTIFAKT_MYSQL_DATABASE_NAME:-changeme}
 export APP_DATABASE_USER=${ARTIFAKT_MYSQL_USER:-changeme}

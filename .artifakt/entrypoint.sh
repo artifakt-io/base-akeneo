@@ -33,7 +33,7 @@ wait-for $ARTIFAKT_MYSQL_HOST:3306 --timeout=90 -- su www-data -s /bin/bash -c '
   APP_DATABASE_PORT=${ARTIFAKT_MYSQL_PORT:-3306}
   ES_PROTOCOL="https://"
   APP_INDEX_HOSTS=${ES_PROTOCOL:-http://}${ARTIFAKT_ES_HOST:-elasticsearch}:${ARTIFAKT_ES_PORT:-9200}
-  EOF
+EOF
 
   ./bin/console pim:system:information 2>/dev/null;
 

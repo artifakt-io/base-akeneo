@@ -15,7 +15,7 @@ export APP_INDEX_HOSTS=${ES_PROTOCOL:-http://}${ARTIFAKT_ES_HOST:-elasticsearch}
 
 wait-for ${ARTIFAKT_ES_HOST:-elasticsearch}:${ARTIFAKT_ES_PORT:-9200} --timeout=30
 
-wait-for $APP_DATABASE_HOST:3306 --timeout=90 -- su www-data -s /bin/bash -c '
+wait-for $ARTIFAKT_MYSQL_HOST:3306 --timeout=90 -- su www-data -s /bin/bash -c '
   cd /var/www/html/pim-community-standard
   source /var/www/html/.build-args
 

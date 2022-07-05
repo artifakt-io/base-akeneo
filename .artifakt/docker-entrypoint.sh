@@ -17,8 +17,11 @@ rm -rf /var/www/html/pim-community-standard/var/logs && \
   ln -sfn /var/log/artifakt /var/www/html/pim-community-standard/var/logs && \
   chown -h www-data:www-data /var/www/html/pim-community-standard/var/logs /var/log/artifakt
 
+echo "DEBUG env.vars"
+env
+
 if [[ -x "/.artifakt/entrypoint.sh" ]]; then
-  if [ $ARTIFAKT_IS_MAIN_INSTANCE == 1 ]; then
+  if [ "$ARTIFAKT_IS_MAIN_INSTANCE" == "1" ]; then
     source /.artifakt/entrypoint.sh
   fi
 fi

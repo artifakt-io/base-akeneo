@@ -12,6 +12,13 @@ export APP_DATABASE_PASSWORD=${ARTIFAKT_MYSQL_PASSWORD:-changeme}
 export APP_DATABASE_HOST=${ARTIFAKT_MYSQL_HOST:-mysql}
 export APP_DATABASE_PORT=${ARTIFAKT_MYSQL_PORT:-3306}
 
+echo "APP_DATABASE_NAME=${APP_DATABASE_NAME}"         >  /var/www/html/pim-community-standard/.env.local
+echo "APP_DATABASE_USER=${APP_DATABASE_USER}"         >> /var/www/html/pim-community-standard/.env.local
+echo "APP_DATABASE_PASSWORD=${APP_DATABASE_PASSWORD}" >> /var/www/html/pim-community-standard/.env.local
+
+chown www-data:www-data /var/www/html/pim-community-standard/.env.local
+chown -R www-data:www-data /var/www/html/pim-community-standard/config
+
 ES_PROTOCOL=""
 if [[ "$ARTIFAKT_ES_PORT" == "443" ]]; then
   ES_PROTOCOL="https://"

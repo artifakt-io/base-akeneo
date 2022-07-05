@@ -35,7 +35,7 @@ wait-for $APP_DATABASE_HOST:3306 --timeout=90 -- su --preserve-environment www-d
 
   if [ $? -ne 0 ]; then
   	echo FIRST DEPLOYMENT, will run default installer
-    APP_ENV=dev php bin/console pim:installer:db --doNotDropDatabase --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal    
+    APP_ENV=dev php bin/console pim:installer:db --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal    
     php ./bin/console pim:user:create admin password123 user@example.com Admin User en_US --admin -n
   else
   	echo FOUND INSTALLED SYSTEM, will not run installer
